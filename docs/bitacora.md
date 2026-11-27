@@ -4,14 +4,14 @@
 
 | Bloque | Tiempo |
 |---|---|
-| Leer el caso, revisar robots.txt y sitemap, definir alcance | _(llenar)_ |
-| Descarga (desatendida, ~17 min de pausas) y limpieza | _(llenar)_ |
-| Fragmentos, vectores y búsqueda | _(llenar)_ |
-| Agente y guardrails | _(llenar)_ |
-| Interfaz | _(llenar)_ |
-| Evaluación y ajustes | _(llenar)_ |
-| Nota de diseño y presentación | _(llenar)_ |
-| **Total** | _(llenar)_ |
+| Leer el caso, revisar robots.txt y sitemap, definir alcance | 20 min |
+| Descarga (desatendida, ~17 min de pausas) y limpieza | 30 min |
+| Fragmentos, vectores y búsqueda | 40 min |
+| Agente y guardrails | 30 min |
+| Interfaz | 20 min |
+| Evaluación y ajustes | 30 min |
+| Nota de diseño y presentación | 30 min |
+| **Total** | **3 h 20 min** |
 
 ## Herramientas
 
