@@ -87,3 +87,9 @@ nDCG (con varias páginas correctas por pregunta) y costo por conversación.
 Contenido desde el CMS con vigencia; búsqueda en un motor administrado con reranker y filtros por
 producto; sesión en el servidor con caducidad; modelo por la nube del banco con guardrails;
 evaluación grande antes de cada cambio; tablero de calidad, costo y latencia; pase a un ejecutivo.
+
+**Mejora futura: categorías.** Clasificar cada pregunta o conversación por categoría (tarjetas,
+cuentas, créditos, aclaraciones, seguridad, fuera de tema), con el mismo modelo o uno más barato, y
+graficarlas en un tablero: qué preguntan más los clientes, en qué categorías baja la calidad o el
+asistente no encuentra la respuesta, y qué contenido hace falta. Las 20 preguntas de prueba ya traen
+su categoría, así que la evaluación también se puede ver por categoría.
