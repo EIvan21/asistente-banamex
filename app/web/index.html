@@ -120,7 +120,7 @@ function agregar(clase, html) {
 
 async function preguntar(texto) {
   document.getElementById("bienvenida")?.remove();
-  agregar("usuario", escapar(texto));
+  const mia = agregar("usuario", escapar(texto));
   boton.disabled = true;
   const burbuja = agregar("asistente", '<div class="pasos"></div><div class="cuerpo cursor"></div>');
   const pasos = burbuja.querySelector(".pasos"), cuerpo = burbuja.querySelector(".cuerpo");
@@ -140,8 +140,11 @@ async function preguntar(texto) {
         if (ev.tipo === "paso") { pasos.insertAdjacentHTML("beforeend", `<div>${escapar(ev.texto)}</div>`); }
         else if (ev.tipo === "texto") { acumulado += ev.delta; cuerpo.innerHTML = markdown(acumulado); }
         else if (ev.tipo === "reiniciar") { acumulado = ""; cuerpo.innerHTML = ""; }
-        else if (ev.tipo === "aviso") { chat.insertBefore(Object.assign(document.createElement("div"),
-                                         {className: "aviso-msg", textContent: ev.texto}), burbuja); }
+        else if (ev.tipo === "aviso") {
+          // El servidor ocultó datos sensibles: la pantalla y el historial se quedan con la versión oculta.
+          if (ev.pregunta) { texto = ev.pregunta; mia.innerHTML = escapar(texto); }
+          chat.insertBefore(Object.assign(document.createElement("div"),
+                            {className: "aviso-msg", textContent: ev.texto}), burbuja); }
         else if (ev.tipo === "error") { pasos.insertAdjacentHTML("beforeend", `<div>${escapar(ev.texto)}</div>`); }
         else if (ev.tipo === "fin") {
           acumulado = ev.respuesta; cuerpo.innerHTML = markdown(acumulado);

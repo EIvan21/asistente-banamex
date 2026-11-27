@@ -13,16 +13,18 @@ PATRONES_SENSIBLES = [
     ("número de tarjeta", re.compile(r"\b\d(?:[ -]?\d){14,15}\b")),
     ("CLABE", re.compile(r"\b\d{18}\b")),
     ("CURP", re.compile(r"\b[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d\b", re.I)),
-    ("NIP o código", re.compile(r"\b(?:nip|cvv|contrase[nñ]a|clave|c[oó]digo)\b\D{0,15}\d{3,8}\b", re.I)),
+    # Para el NIP se conserva la palabra ("NIP es [DATO OCULTO]") y solo se oculta el número.
+    ("NIP o código", re.compile(r"\b((?:nip|cvv|contrase[nñ]a|clave|c[oó]digo)\b\D{0,15})\d{3,8}\b", re.I)),
 ]
 
 
 def enmascarar(texto):
+    """Oculta datos sensibles antes de mandar el texto al modelo. Regresa (texto, tipos encontrados)."""
     encontrados = []
     for nombre, patron in PATRONES_SENSIBLES:
         if patron.search(texto):
             encontrados.append(nombre)
-            texto = patron.sub("[DATO OCULTO]", texto)
+            texto = patron.sub(lambda m: (m.group(1) if m.groups() else "") + "[DATO OCULTO]", texto)
     return texto, encontrados
 
 

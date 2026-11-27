@@ -110,8 +110,9 @@ def responder(pregunta, historial=()):
     controles = []
     if sensibles:
         controles.append(f"dato sensible oculto: {', '.join(sensibles)}")
-        yield {"tipo": "aviso", "texto": "Por tu seguridad oculté datos sensibles de tu mensaje. "
-                                         "Nunca compartas tu NIP, CVV, contraseñas ni números completos de tarjeta."}
+        yield {"tipo": "aviso", "pregunta": pregunta,
+               "texto": "Por tu seguridad oculté datos sensibles de tu mensaje. "
+                        "Nunca compartas tu NIP, CVV, contraseñas ni números completos de tarjeta."}
     llm = modelo()
     if llm is None:
         yield from responder_sin_llm(pregunta)
@@ -120,7 +121,8 @@ def responder(pregunta, historial=()):
     # El prompt del sistema se guarda en caché: a partir de la segunda pregunta cuesta menos y responde antes.
     mensajes = [SystemMessage(content=[{"type": "text", "text": SISTEMA, "cache_control": {"type": "ephemeral"}}])]
     for t in list(historial)[-2 * HISTORIAL_TURNOS:]:
-        mensajes.append(HumanMessage(t["content"]) if t["role"] == "user" else AIMessage(t["content"]))
+        contenido = enmascarar(t["content"])[0]  # el historial también pasa por el guardrail de entrada
+        mensajes.append(HumanMessage(contenido) if t["role"] == "user" else AIMessage(contenido))
     mensajes.append(HumanMessage(pregunta))
 
     vistas = {"https://www.banamex.com": "banamex.com"}  # la página de inicio siempre es una liga válida
