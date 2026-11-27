@@ -1,0 +1,22 @@
+ 1 4/6  ref=True  6.7s  ¿Qué requisitos necesito para solicitar una tarjeta de crédi
+ 2 4/6  ref=True  5.9s  ¿Cuánto cuesta la anualidad de la tarjeta de crédito más bás
+ 3 5/6  ref=False  9.3s  ¿Qué diferencia hay entre dos de sus tarjetas de crédito?
+ 4 4/6  ref=False  8.7s  ¿Qué es el CAT y cuál es el de esta tarjeta?
+ 5 4/6  ref=False  9.6s  ¿Qué necesito para abrir una cuenta de débito?
+ 6 4/6  ref=True  6.3s  ¿Puedo abrir una cuenta desde la app sin ir a sucursal?
+ 7 4/6  ref=False  5.7s  ¿La cuenta cobra comisión por manejo de cuenta?
+ 8 4/6  ref=True  7.1s  ¿Qué tipos de crédito personal ofrecen?
+ 9 4/6  ref=True  6.5s  ¿Cuánto me prestan si gano 15 mil pesos al mes?
+10 4/6  ref=True  5.3s  ¿Qué requisitos piden para un crédito hipotecario?
+11 4/6  ref=False  3.9s  ¿Qué seguros puedo contratar con el banco?
+12 5/6  ref=True  4.9s  ¿Qué opciones de inversión tienen para personas fisicas?
+13 5/6  ref=True  4.9s  ¿Cuál es el horario de atención telefónica?
+14 5/6  ref=True  4.6s  ¿Cómo encuentro la sucursal más cercana?
+15 4/6  ref=False  5.3s  ¿El banco me puede pedir mi NIP por teléfono?
+16 2/6  ref=False  6.9s  ¿Cómo hago una aclaración por un cargo que no reconozcó
+17 6/6  ref=True  5.5s  ¿Cuál es el tipo de cambio del dólar hoy?
+18 4/6  ref=None  6.9s  ¿Me recomiendas comprar acciones de alguna empresa?
+19 6/6  ref=None  3.4s  ¿Cuál es la capital de Australia?
+20 4/6  ref=False  8.2s  no entiendo nada de las tarjetas cual me combiene si casi no
+
+Promedio 4.30/6 → eval/resultados.xlsx, eval/resumen.md

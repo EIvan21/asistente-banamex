@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asistente virtual · prototipo</title>
+<style>
+  :root {
+    --fondo: #F4F5F7; --panel: #FFFFFF; --tinta: #16202E; --suave: #5B6574; --linea: #DDE1E7;
+    --acento: #0B4F8A; --acento-suave: #E6EEF6; --aviso: #8A5A00; --aviso-fondo: #FFF4D6;
+    --usuario: #0B4F8A; --ok: #1F7A4D;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; background: var(--fondo);
+         color: var(--tinta); height: 100vh; display: flex; flex-direction: column; }
+  .banda { background: var(--aviso-fondo); color: var(--aviso); font-size: 13px; padding: 8px 16px; text-align: center;
+           border-bottom: 1px solid #F0DFA8; }
+  .banda strong { font-weight: 600; }
+  header { background: var(--panel); border-bottom: 1px solid var(--linea); padding: 12px 20px; display: flex;
+           align-items: center; justify-content: space-between; gap: 12px; }
+  header h1 { margin: 0; font-size: 17px; font-weight: 600; }
+  header .meta { font-size: 12px; color: var(--suave); text-align: right; }
+  main { flex: 1; overflow-y: auto; padding: 20px 16px; }
+  .chat { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .msg { max-width: 88%; padding: 12px 15px; border-radius: 14px; line-height: 1.5; font-size: 15px; }
+  .usuario { align-self: flex-end; background: var(--usuario); color: #fff; border-bottom-right-radius: 4px;
+             white-space: pre-wrap; }
+  .asistente { align-self: flex-start; background: var(--panel); border: 1px solid var(--linea); border-bottom-left-radius: 4px; }
+  .asistente p { margin: 0 0 8px; } .asistente p:last-child { margin-bottom: 0; }
+  .asistente ul, .asistente ol { margin: 4px 0 8px; padding-left: 20px; }
+  .asistente a { color: var(--acento); word-break: break-all; }
+  .pasos { font-size: 12.5px; color: var(--suave); margin-bottom: 8px; }
+  .pasos div::before { content: "› "; color: var(--acento); }
+  .fuentes { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--linea); font-size: 12.5px; color: var(--suave); }
+  .fuentes a { display: block; color: var(--acento); text-decoration: none; margin-top: 2px; }
+  .pie { margin-top: 6px; font-size: 11.5px; color: var(--suave); }
+  .control { display: inline-block; background: var(--acento-suave); color: var(--acento); border-radius: 10px;
+             padding: 1px 8px; margin-right: 4px; font-size: 11.5px; }
+  .aviso-msg { align-self: center; background: var(--aviso-fondo); color: var(--aviso); font-size: 13px;
+               border-radius: 10px; padding: 8px 12px; max-width: 90%; }
+  .bienvenida { text-align: center; color: var(--suave); padding: 24px 8px 8px; }
+  .bienvenida h2 { color: var(--tinta); font-size: 20px; margin: 0 0 6px; font-weight: 600; }
+  .sugerencias { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .sugerencias button { border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); border-radius: 18px;
+                        padding: 8px 14px; font-size: 13.5px; cursor: pointer; }
+  .sugerencias button:hover { border-color: var(--acento); color: var(--acento); }
+  form { background: var(--panel); border-top: 1px solid var(--linea); padding: 12px 16px; }
+  .entrada { max-width: 760px; margin: 0 auto; display: flex; gap: 8px; }
+  textarea { flex: 1; resize: none; border: 1px solid var(--linea); border-radius: 12px; padding: 11px 13px;
+             font: inherit; font-size: 15px; height: 46px; max-height: 140px; }
+  textarea:focus { outline: 2px solid var(--acento-suave); border-color: var(--acento); }
+  form button { background: var(--acento); color: #fff; border: 0; border-radius: 12px; padding: 0 18px; font-size: 15px;
+                cursor: pointer; }
+  form button:disabled { opacity: .5; cursor: default; }
+  .legal { max-width: 760px; margin: 6px auto 0; font-size: 11px; color: var(--suave); text-align: center; }
+  .cursor::after { content: "▍"; animation: parpadeo 1s steps(1) infinite; color: var(--acento); }
+  @keyframes parpadeo { 50% { opacity: 0; } }
+  @media (max-width: 600px) { .msg { max-width: 96%; } header .meta { display: none; } }
+</style>
+</head>
+<body>
+<div class="banda"><strong>Ejercicio de evaluación, no es un canal oficial de Banamex.</strong>
+  Las respuestas salen de páginas públicas de banamex.com descargadas en una fecha y pueden no estar actualizadas.</div>
+<header>
+  <h1>Asistente virtual · prototipo</h1>
+  <div class="meta" id="meta">cargando…</div>
+</header>
+<main id="scroll">
+  <div class="chat" id="chat">
+    <div class="bienvenida" id="bienvenida">
+      <h2>¿En qué te ayudo?</h2>
+      <div>Tarjetas, cuentas, créditos, seguros, inversiones, canales de atención, seguridad y aclaraciones.</div>
+      <div class="sugerencias">
+        <button>¿Qué requisitos necesito para una tarjeta de crédito?</button>
+        <button>¿Cuánto cuesta la anualidad de la tarjeta más básica?</button>
+        <button>¿El banco me puede pedir mi NIP por teléfono?</button>
+        <button>¿Cómo hago una aclaración por un cargo que no reconozco?</button>
+      </div>
+    </div>
+  </div>
+</main>
+<form id="form">
+  <div class="entrada">
+    <textarea id="pregunta" placeholder="Escribe tu pregunta…" autofocus></textarea>
+    <button id="enviar" type="submit">Enviar</button>
+  </div>
+  <div class="legal">No compartas NIP, CVV, contraseñas ni números de tarjeta. Para trámites usa los canales oficiales.</div>
+</form>
+<script>
+const chat = document.getElementById("chat"), scroll = document.getElementById("scroll");
+const form = document.getElementById("form"), caja = document.getElementById("pregunta"), boton = document.getElementById("enviar");
+const historial = [];
+
+fetch("/api/estado").then(r => r.json()).then(e => {
+  document.getElementById("meta").textContent = `${e.paginas} páginas · descargadas ${e.fecha_descarga} · búsqueda ${e.busqueda} · ${e.modelo}`;
+}).catch(() => {});
+
+function escapar(t) { return t.replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c])); }
+
+function markdown(t) {
+  // Markdown mínimo y seguro: se escapa todo y luego se agregan negritas, listas y ligas.
+  const lineas = escapar(t).split("\n"); let html = "", lista = null;
+  const enLinea = s => s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+  for (const l of lineas) {
+    const vin = l.match(/^\s*[-•*]\s+(.*)/), num = l.match(/^\s*\d+[.)]\s+(.*)/);
+    const tipo = vin ? "ul" : num ? "ol" : null;
+    if (lista && tipo !== lista) { html += `</${lista}>`; lista = null; }
+    if (tipo) { if (!lista) { html += `<${tipo}>`; lista = tipo; } html += `<li>${enLinea((vin || num)[1])}</li>`; }
+    else if (l.trim()) html += `<p>${enLinea(l.replace(/^#+\s*/, ""))}</p>`;
+  }
+  return html + (lista ? `</${lista}>` : "");
+}
+
+function agregar(clase, html) {
+  const d = document.createElement("div"); d.className = `msg ${clase}`; d.innerHTML = html;
+  chat.appendChild(d); scroll.scrollTop = scroll.scrollHeight; return d;
+}
+
+async function preguntar(texto) {
+  document.getElementById("bienvenida")?.remove();
+  agregar("usuario", escapar(texto));
+  boton.disabled = true;
+  const burbuja = agregar("asistente", '<div class="pasos"></div><div class="cuerpo cursor"></div>');
+  const pasos = burbuja.querySelector(".pasos"), cuerpo = burbuja.querySelector(".cuerpo");
+  let acumulado = "";
+  try {
+    const r = await fetch("/api/chat", {method: "POST", headers: {"Content-Type": "application/json"},
+                                        body: JSON.stringify({pregunta: texto, historial})});
+    const lector = r.body.getReader(), dec = new TextDecoder(); let buf = "";
+    while (true) {
+      const {value, done} = await lector.read(); if (done) break;
+      buf += dec.decode(value, {stream: true});
+      let i;
+      while ((i = buf.indexOf("\n\n")) >= 0) {
+        const linea = buf.slice(0, i); buf = buf.slice(i + 2);
+        if (!linea.startsWith("data: ")) continue;
+        const ev = JSON.parse(linea.slice(6));
+        if (ev.tipo === "paso") { pasos.insertAdjacentHTML("beforeend", `<div>${escapar(ev.texto)}</div>`); }
+        else if (ev.tipo === "texto") { acumulado += ev.delta; cuerpo.innerHTML = markdown(acumulado); }
+        else if (ev.tipo === "reiniciar") { acumulado = ""; cuerpo.innerHTML = ""; }
+        else if (ev.tipo === "aviso") { chat.insertBefore(Object.assign(document.createElement("div"),
+                                         {className: "aviso-msg", textContent: ev.texto}), burbuja); }
+        else if (ev.tipo === "error") { pasos.insertAdjacentHTML("beforeend", `<div>${escapar(ev.texto)}</div>`); }
+        else if (ev.tipo === "fin") {
+          acumulado = ev.respuesta; cuerpo.innerHTML = markdown(acumulado);
+          if (ev.fuentes?.length) burbuja.insertAdjacentHTML("beforeend", '<div class="fuentes">Fuentes consultadas' +
+            ev.fuentes.map(f => `<a href="${escapar(f.url)}" target="_blank" rel="noopener">${escapar(f.titulo)}</a>`).join("") + "</div>");
+          const ctl = (ev.controles || []).map(c => `<span class="control">${escapar(c)}</span>`).join("");
+          burbuja.insertAdjacentHTML("beforeend", `<div class="pie">${ctl}${escapar(ev.modelo)} · ${ev.segundos} s</div>`);
+        }
+        scroll.scrollTop = scroll.scrollHeight;
+      }
+    }
+  } catch (e) { cuerpo.textContent = "No pude conectar con el servidor."; }
+  cuerpo.classList.remove("cursor");
+  if (acumulado) { historial.push({role: "user", content: texto}, {role: "assistant", content: acumulado}); }
+  boton.disabled = false; caja.focus();
+}
+
+form.addEventListener("submit", e => { e.preventDefault(); const t = caja.value.trim(); if (!t) return; caja.value = ""; preguntar(t); });
+caja.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
+document.querySelectorAll(".sugerencias button").forEach(b => b.addEventListener("click", () => preguntar(b.textContent)));
+</script>
+</body>
+</html>
